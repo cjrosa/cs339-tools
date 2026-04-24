@@ -1688,6 +1688,18 @@ function closeAiDrawer() {
   setDrawerSize('default');
 }
 
+// ── Instructor drawer ────────────────────────────────────────
+function openDrawer() {
+  document.getElementById('instructor-drawer').classList.add('open');
+  document.getElementById('drawer-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer() {
+  document.getElementById('instructor-drawer').classList.remove('open');
+  document.getElementById('drawer-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 // ── Helpers ───────────────────────────────────────────────────
 function setInputsDisabled(val) {
   document.getElementById('ai-search-btn').disabled = val;
