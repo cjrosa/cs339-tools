@@ -1708,8 +1708,11 @@ function setInputsDisabled(val) {
 }
 
 // ── Enter key on search input ─────────────────────────────────
-document.getElementById('ai-search-input').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') handleSearch();
+document.addEventListener('DOMContentLoaded', function() {
+  var inp = document.getElementById('ai-search-input');
+  if (inp) inp.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') handleSearch();
+  });
 });
 
 // ── Layer accordion ───────────────────────────────────────────
