@@ -528,7 +528,218 @@ body {
 .contact-icon.li    { background: #0A66C2; color: white; }
 .contact-icon.teal  { background: var(--teal-l); color: var(--teal); }
 
-/* ── Instructor Drawer ───────────────────────────────────── */
+/* ── Search Bar ──────────────────────────────────────────────*/
+.search-bar-wrap {
+  margin-bottom: 28px;
+}
+.search-bar-inner {
+  display: flex; align-items: center; gap: 10px;
+  background: #fff; border: 1.5px solid var(--border2);
+  border-radius: 40px; padding: 8px 8px 8px 18px;
+  box-shadow: var(--shadow);
+  transition: border-color .2s, box-shadow .2s;
+}
+.search-bar-inner:focus-within {
+  border-color: var(--red); box-shadow: 0 0 0 3px rgba(206,17,65,0.1);
+}
+.search-icon { color: var(--text3); flex-shrink: 0; }
+.search-input {
+  flex: 1; border: none; outline: none; background: transparent;
+  font-family: -apple-system, sans-serif; font-size: 14px;
+  color: var(--text); min-width: 0;
+}
+.search-input::placeholder { color: var(--text3); }
+.search-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--red); color: white; border: none;
+  border-radius: 30px; padding: 8px 18px; cursor: pointer;
+  font-family: -apple-system, sans-serif; font-size: 13px; font-weight: 600;
+  transition: background .15s; flex-shrink: 0;
+}
+.search-btn:hover { background: var(--red-m); }
+.search-btn:disabled { background: #ccc; cursor: not-allowed; }
+.search-hint-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 7px; padding: 0 18px 0 18px;
+}
+.search-hint {
+  font-family: -apple-system, sans-serif; font-size: 10px;
+  color: var(--text3);
+}
+.search-last-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: -apple-system, sans-serif; font-size: 10px; font-weight: 600;
+  color: var(--red); background: var(--red-l); border: none;
+  border-radius: 20px; padding: 3px 10px; cursor: pointer;
+  transition: background .15s;
+}
+.search-last-btn:hover { background: #f5c4d0; }
+
+/* ── AI Answer Drawer ────────────────────────────────────────*/
+.ai-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: 420px; max-width: 92vw;
+  background: var(--bg2);
+  box-shadow: -8px 0 40px rgba(0,0,0,0.18);
+  transform: translateX(100%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1), width .3s ease;
+  z-index: 102;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.ai-drawer.open { transform: translateX(0); }
+.ai-drawer.expanded { width: 65vw; }
+.ai-drawer.fullscreen { width: 100vw; }
+
+.ai-drawer-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg); flex-shrink: 0;
+  gap: 8px;
+}
+.ai-drawer-label {
+  display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;
+}
+.ai-drawer-label-text {
+  font-family: -apple-system, sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--text3);
+  white-space: nowrap;
+}
+.ai-drawer-question {
+  font-family: -apple-system, sans-serif; font-size: 12px;
+  color: var(--text2); white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; min-width: 0;
+  font-style: italic;
+}
+.ai-drawer-controls {
+  display: flex; align-items: center; gap: 4px; flex-shrink: 0;
+}
+.ai-ctrl-btn {
+  width: 28px; height: 28px; border-radius: 6px;
+  border: 1px solid var(--border2); background: var(--bg2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text2);
+  transition: background .15s, color .15s;
+}
+.ai-ctrl-btn:hover { background: var(--red-l); color: var(--red); border-color: var(--red); }
+.ai-ctrl-btn.active { background: var(--red-l); color: var(--red); border-color: var(--red); }
+
+.ai-drawer-body {
+  flex: 1; overflow-y: auto; padding: 20px 22px 24px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+
+/* Question chip */
+.ai-question-chip {
+  background: var(--red-l); border-radius: 20px;
+  padding: 8px 14px; align-self: flex-start;
+  font-family: -apple-system, sans-serif; font-size: 13px;
+  color: var(--red-m); font-style: italic;
+  max-width: 90%;
+}
+
+/* Answer block */
+.ai-answer-block {
+  background: #F8F8F6; border-radius: 12px;
+  padding: 16px 18px; border: 0.5px solid var(--border2);
+}
+.ai-answer-text {
+  font-family: -apple-system, sans-serif; font-size: 14px;
+  color: var(--text); line-height: 1.75;
+}
+.ai-answer-text p { margin-bottom: 10px; }
+.ai-answer-text p:last-child { margin-bottom: 0; }
+
+/* Loading state */
+.ai-loading {
+  display: flex; align-items: center; gap: 10px;
+  font-family: -apple-system, sans-serif; font-size: 13px; color: var(--text3);
+}
+.ai-loading-dots { display: flex; gap: 4px; }
+.ai-loading-dots span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--red); opacity: 0.4;
+  animation: dot-pulse 1.2s ease-in-out infinite;
+}
+.ai-loading-dots span:nth-child(2) { animation-delay: .2s; }
+.ai-loading-dots span:nth-child(3) { animation-delay: .4s; }
+@keyframes dot-pulse {
+  0%,80%,100% { opacity:.15; transform:scale(.8); }
+  40% { opacity:1; transform:scale(1.1); }
+}
+
+/* Tool recommendation card */
+.ai-tool-rec {
+  border: 1.5px solid var(--border2); border-radius: 12px;
+  overflow: hidden; text-decoration: none; color: inherit;
+  display: block; transition: box-shadow .2s, border-color .2s, transform .2s;
+}
+.ai-tool-rec:hover {
+  box-shadow: var(--shadow-h); border-color: var(--red);
+  transform: translateY(-1px);
+}
+.ai-tool-rec-header {
+  padding: 10px 14px 8px;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 0.5px solid var(--border);
+}
+.ai-tool-rec-badge {
+  font-family: -apple-system, sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 20px;
+  background: var(--red-l); color: var(--red);
+}
+.ai-tool-rec-layer {
+  font-family: -apple-system, sans-serif; font-size: 10px;
+  color: var(--text3); margin-left: auto;
+}
+.ai-tool-rec-body { padding: 10px 14px 12px; }
+.ai-tool-rec-name {
+  font-family: -apple-system, sans-serif; font-size: 13px;
+  font-weight: 700; color: var(--text); margin-bottom: 3px;
+}
+.ai-tool-rec-desc {
+  font-family: -apple-system, sans-serif; font-size: 11px;
+  color: var(--text2); line-height: 1.5;
+}
+.ai-tool-rec-footer {
+  padding: 8px 14px; background: var(--bg);
+  border-top: 0.5px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.ai-tool-rec-cta {
+  font-family: -apple-system, sans-serif; font-size: 11px;
+  font-weight: 600; color: var(--red);
+  display: flex; align-items: center; gap: 4px;
+}
+.ai-tool-rec-arrow { transition: transform .2s; }
+.ai-tool-rec:hover .ai-tool-rec-arrow { transform: translateX(3px); }
+
+/* Follow-up input */
+.ai-followup-wrap {
+  border-top: 1px solid var(--border); padding: 12px 16px;
+  background: var(--bg); flex-shrink: 0;
+  display: flex; gap: 8px; align-items: center;
+}
+.ai-followup-input {
+  flex: 1; border: 1px solid var(--border2); border-radius: 20px;
+  padding: 8px 14px; font-family: -apple-system, sans-serif; font-size: 13px;
+  color: var(--text); outline: none; background: white;
+  transition: border-color .2s;
+}
+.ai-followup-input:focus { border-color: var(--red); }
+.ai-followup-btn {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--red); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: white; transition: background .15s; flex-shrink: 0;
+}
+.ai-followup-btn:hover { background: var(--red-m); }
+.ai-followup-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+/* ── Instructor Drawer ───────────────────────────────────────*/
 .drawer-overlay {
   position: fixed; inset: 0; z-index: 100;
   background: rgba(0,0,0,0.25);
@@ -708,6 +919,24 @@ body {
 </div>
 
 <main class="main">
+
+  <div class="search-bar-wrap">
+    <div class="search-bar-inner">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="6.5" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/></svg>
+      <input id="ai-search-input" class="search-input" type="text" placeholder="Ask a question about networking… e.g. &quot;how does slow start work?&quot;" autocomplete="off" />
+      <button id="ai-search-btn" class="search-btn" onclick="handleSearch()">
+        Ask
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="8,2 14,8 8,14"/></svg>
+      </button>
+    </div>
+    <div class="search-hint-row">
+      <span class="search-hint">Powered by Claude · answers scoped to CS339 topics · recommends tools when relevant</span>
+      <button id="btn-last-result" class="search-last-btn" onclick="openAiDrawer(null)" style="display:none">
+        <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4h14M1 8h10M1 12h6"/></svg>
+        Last result
+      </button>
+    </div>
+  </div>
 
   <div class="section-label">TCP / IP Stack — Interactive Tools</div>
 
@@ -1193,27 +1422,286 @@ body {
   </div>
 </div>
 
+<!-- ── AI Answer Drawer ── -->
+<div class="drawer-overlay" id="ai-drawer-overlay" onclick="closeAiDrawer()" style="z-index:101;"></div>
+<div class="ai-drawer" id="ai-drawer">
+  <div class="ai-drawer-header">
+    <div class="ai-drawer-label">
+      <span class="ai-drawer-label-text">CS339 Assistant</span>
+      <span class="ai-drawer-question" id="ai-drawer-question-preview"></span>
+    </div>
+    <div class="ai-drawer-controls">
+      <button class="ai-ctrl-btn" id="btn-expand" onclick="setDrawerSize('expanded')" title="Expand">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="10,2 14,2 14,6"/><polyline points="6,14 2,14 2,10"/><line x1="14" y1="2" x2="9" y2="7"/><line x1="2" y1="14" x2="7" y2="9"/></svg>
+      </button>
+      <button class="ai-ctrl-btn" id="btn-full" onclick="setDrawerSize('fullscreen')" title="Full screen">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 2,2 6,2"/><polyline points="10,2 14,2 14,6"/><polyline points="14,10 14,14 10,14"/><polyline points="6,14 2,14 2,10"/></svg>
+      </button>
+      <button class="ai-ctrl-btn" onclick="closeAiDrawer()" title="Close">
+        <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="2" x2="14" y2="14"/><line x1="14" y1="2" x2="2" y2="14"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="ai-drawer-body" id="ai-drawer-body"></div>
+  <div class="ai-followup-wrap">
+    <input id="ai-followup-input" class="ai-followup-input" type="text" placeholder="Ask a follow-up question…" onkeydown="if(event.key==='Enter')sendFollowUp()" />
+    <button class="ai-followup-btn" id="ai-followup-btn" onclick="sendFollowUp()">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="8,2 14,8 8,14"/></svg>
+    </button>
+  </div>
+</div>
+
 <script>
-function toggleLayer(id) {
-  var el = document.getElementById(id);
-  var btn = el.querySelector('.layer-header');
-  var isOpen = el.classList.contains('open');
-  el.classList.toggle('open', !isOpen);
-  btn.setAttribute('aria-expanded', String(!isOpen));
+// ── API Key ──────────────────────────────────────────────────
+// TODO: Replace with your Anthropic API key before deploying
+const ANTHROPIC_API_KEY = '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';
+
+// ── Tool registry for recommendations ────────────────────────
+const TOOLS = [
+  { name:'TCP Full Visualizer', file:'tcp_full_V3.html', layer:'Transport · Layer 4',
+    desc:'SYN/FIN handshake, seq/ack, flow control, congestion control, slow start, AIMD, retransmit',
+    keywords:['tcp','syn','fin','ack','seq','sequence','acknowledgment','handshake','flow control','congestion','slow start','aimd','retransmit','sliding window','rwnd','cwnd','buffer','transport'] },
+  { name:'CIDR Teaching Tool', file:'cidr_viz.html', layer:'Network · Layer 3',
+    desc:'IP addressing, subnet masks, CIDR notation, block sizes, route aggregation, same-subnet check',
+    keywords:['cidr','subnet','subnetting','ip address','mask','prefix','block','network address','broadcast','aggregation','route summarization','/24','/16','/8','classless','addressing'] },
+  { name:'Subnet Topology Builder', file:'subnet_topology_builder.html', layer:'Network · Layer 3',
+    desc:'NAT, PAT, DHCP, routing between subnets, host-to-host packet simulation, translation table',
+    keywords:['nat','pat','dhcp','topology','subnet topology','network design','translation','private address','public address','port mapping','packet routing'] },
+  { name:'Router Visualizer', file:'router_viz.html', layer:'Network · Layer 3',
+    desc:'Forwarding tables, longest-prefix match, static routes, TTL, per-interface inspection',
+    keywords:['router','forwarding','routing table','longest prefix','prefix match','ttl','static route','datagram','hop','interface','next hop'] },
+  { name:'Routing Algorithm Visualizer', file:'routing_viz.html', layer:'Network · Layer 3',
+    desc:'Dijkstra link-state algorithm, Bellman-Ford distance vector, shortest path, convergence',
+    keywords:['dijkstra','bellman-ford','link state','distance vector','ls','dv','shortest path','convergence','routing algorithm','ospf','rip','topology'] },
+  { name:'Graph Algorithm Visualizer', file:'graph_viz.html', layer:'Network · Layer 3',
+    desc:'Network topology as a graph, weighted edges, shortest path traversal, LS flooding model',
+    keywords:['graph','topology graph','weighted','edge','node','flooding','link state flooding','spanning tree','path'] },
+  { name:'Link Layer Visualizer', file:'linklayer_viz.html', layer:'Link · Layer 2',
+    desc:'MAC learning, ARP request/reply, broadcast flooding, VLAN isolation, frame re-encapsulation',
+    keywords:['arp','mac','mac address','mac table','mac learning','switch','frame','flooding','broadcast','vlan','lan','link layer','ethernet','layer 2'] },
+];
+
+// ── Conversation history + result cache ──────────────────────
+let aiHistory = [];
+let currentDrawerSize = 'default';
+let cachedDrawerHTML = '';
+let cachedQuestion = '';
+
+// ── Recommend tool from question + answer ────────────────────
+function recommendTool(question, answer) {
+  const text = (question + ' ' + answer).toLowerCase();
+  let best = null, bestScore = 0;
+  for (const tool of TOOLS) {
+    let score = tool.keywords.filter(k => text.includes(k)).length;
+    if (score > bestScore) { bestScore = score; best = tool; }
+  }
+  return bestScore >= 1 ? best : null;
 }
-function openDrawer() {
-  document.getElementById('instructor-drawer').classList.add('open');
-  document.getElementById('drawer-overlay').classList.add('open');
+
+// ── Render tool recommendation card ──────────────────────────
+function renderToolCard(tool) {
+  return `<a class="ai-tool-rec" href="${tool.file}">
+    <div class="ai-tool-rec-header">
+      <span class="ai-tool-rec-badge">Recommended Tool</span>
+      <span class="ai-tool-rec-layer">${tool.layer}</span>
+    </div>
+    <div class="ai-tool-rec-body">
+      <div class="ai-tool-rec-name">${tool.name}</div>
+      <div class="ai-tool-rec-desc">${tool.desc}</div>
+    </div>
+    <div class="ai-tool-rec-footer">
+      <span class="ai-tool-rec-cta">Open tool <svg class="ai-tool-rec-arrow" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="8,2 14,8 8,14"/></svg></span>
+    </div>
+  </a>`;
+}
+
+// ── Append a message bubble to the drawer ────────────────────
+function appendMessage(html, className) {
+  const body = document.getElementById('ai-drawer-body');
+  const div = document.createElement('div');
+  div.className = className;
+  div.innerHTML = html;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+  return div;
+}
+
+// ── Call Claude API ───────────────────────────────────────────
+async function callClaude(messages) {
+  const SYSTEM = `You are a concise, expert teaching assistant for CS339 Computer Networks at Sacred Heart University. 
+Answer questions about networking topics covered in the course: TCP/IP stack, transport layer (TCP, flow control, congestion control, seq/ack numbers, SYN/FIN handshakes, sliding window, AIMD, slow start), network layer (IP addressing, CIDR, subnetting, routing tables, LS/DV algorithms, Dijkstra, Bellman-Ford, DHCP, NAT/PAT), and link layer (Ethernet, switches, MAC addresses, MAC learning, ARP, broadcast flooding, VLANs, frames).
+
+Rules:
+- Be concise but complete. 2-4 short paragraphs maximum.
+- Use clear, student-friendly language. Define acronyms on first use.
+- If the question is outside networking/CS339 scope, politely redirect.
+- Format with short paragraphs. Do not use markdown headers or bullet points — use plain prose only.
+- End your answer with a single line starting with "TOOL:" naming the single most relevant tool from this list if applicable, or "TOOL:none" if no tool applies:
+  TCP Full Visualizer, CIDR Teaching Tool, Subnet Topology Builder, Router Visualizer, Routing Algorithm Visualizer, Graph Algorithm Visualizer, Link Layer Visualizer`;
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5',
+      max_tokens: 1000,
+      system: SYSTEM,
+      messages: messages
+    })
+  });
+
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({}));
+    throw new Error('HTTP ' + response.status + ': ' + (errData.error?.message || JSON.stringify(errData)));
+  }
+  const data = await response.json();
+  return data.content[0].text;
+}
+
+// ── Parse answer + tool hint from Claude response ────────────
+function parseResponse(raw) {
+  const lines = raw.split('\n');
+  const toolLine = lines.findLast(l => l.trim().startsWith('TOOL:'));
+  const toolName = toolLine ? toolLine.replace('TOOL:', '').trim() : null;
+  const answer = lines.filter(l => !l.trim().startsWith('TOOL:')).join('\n').trim();
+  const tool = toolName && toolName !== 'none'
+    ? TOOLS.find(t => t.name.toLowerCase() === toolName.toLowerCase()) || recommendTool(answer, answer)
+    : null;
+  return { answer, tool };
+}
+
+// ── Main search handler ───────────────────────────────────────
+async function handleSearch() {
+  const input = document.getElementById('ai-search-input');
+  const q = input.value.trim();
+  if (!q) return;
+
+  openAiDrawer(q);
+  input.value = '';
+
+  // Reset history for new search
+  aiHistory = [{ role: 'user', content: q }];
+
+  // Show question chip
+  appendMessage(q, 'ai-question-chip');
+
+  // Show loading
+  const loadingDiv = appendMessage(
+    '<div class="ai-loading"><div class="ai-loading-dots"><span></span><span></span><span></span></div><span>Thinking…</span></div>',
+    'ai-answer-block'
+  );
+
+  setInputsDisabled(true);
+
+  try {
+    const raw = await callClaude(aiHistory);
+    const { answer, tool } = parseResponse(raw);
+
+    // Add to history
+    aiHistory.push({ role: 'assistant', content: raw });
+
+    // Replace loading with answer
+    loadingDiv.innerHTML = `<div class="ai-answer-text">${answer.split('\n\n').map(p => p ? '<p>'+p+'</p>' : '').join('')}</div>`;
+
+    // Tool recommendation
+    if (tool) {
+      appendMessage(renderToolCard(tool), '');
+    }
+    // Cache the result
+    cachedDrawerHTML = document.getElementById('ai-drawer-body').innerHTML;
+    cachedQuestion = q;
+    document.getElementById('btn-last-result').style.display = 'inline-flex';
+  } catch(e) {
+    loadingDiv.innerHTML = '<div class="ai-answer-text" style="color:var(--red)">Error: ' + e.message + '</div>';
+    console.error('Claude API error:', e);
+  }
+
+  setInputsDisabled(false);
+  document.getElementById('ai-followup-input').focus();
+}
+
+// ── Follow-up handler ─────────────────────────────────────────
+async function sendFollowUp() {
+  const input = document.getElementById('ai-followup-input');
+  const q = input.value.trim();
+  if (!q) return;
+
+  input.value = '';
+  aiHistory.push({ role: 'user', content: q });
+  appendMessage(q, 'ai-question-chip');
+
+  const loadingDiv = appendMessage(
+    '<div class="ai-loading"><div class="ai-loading-dots"><span></span><span></span><span></span></div><span>Thinking…</span></div>',
+    'ai-answer-block'
+  );
+
+  setInputsDisabled(true);
+
+  try {
+    const raw = await callClaude(aiHistory);
+    const { answer, tool } = parseResponse(raw);
+    aiHistory.push({ role: 'assistant', content: raw });
+    loadingDiv.innerHTML = `<div class="ai-answer-text">${answer.split('\n\n').map(p => p ? '<p>'+p+'</p>' : '').join('')}</div>`;
+    if (tool) appendMessage(renderToolCard(tool), '');
+    // Cache updated conversation
+    cachedDrawerHTML = document.getElementById('ai-drawer-body').innerHTML;
+    cachedQuestion = aiHistory[0]?.content || cachedQuestion;
+  } catch(e) {
+    loadingDiv.innerHTML = '<div class="ai-answer-text" style="color:var(--red)">Error: ' + e.message + '</div>';
+    console.error('Claude API error:', e);
+  }
+
+  setInputsDisabled(false);
+  input.focus();
+}
+
+// ── Drawer size control ───────────────────────────────────────
+function setDrawerSize(size) {
+  const drawer = document.getElementById('ai-drawer');
+  drawer.classList.remove('expanded','fullscreen');
+  if (size !== 'default') drawer.classList.add(size);
+  currentDrawerSize = size;
+  document.getElementById('btn-expand').classList.toggle('active', size==='expanded');
+  document.getElementById('btn-full').classList.toggle('active', size==='fullscreen');
+}
+
+// ── Open/close AI drawer ──────────────────────────────────────
+function openAiDrawer(question) {
+  const body = document.getElementById('ai-drawer-body');
+  if (question) {
+    // New search — clear drawer
+    body.innerHTML = '';
+    document.getElementById('ai-drawer-question-preview').textContent = '"' + question + '"';
+  } else if (cachedDrawerHTML) {
+    // Restore cached result
+    body.innerHTML = cachedDrawerHTML;
+    document.getElementById('ai-drawer-question-preview').textContent = cachedQuestion ? '"' + cachedQuestion + '"' : '';
+    body.scrollTop = body.scrollHeight;
+  }
+  document.getElementById('ai-drawer').classList.add('open');
+  document.getElementById('ai-drawer-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-function closeDrawer() {
-  document.getElementById('instructor-drawer').classList.remove('open');
-  document.getElementById('drawer-overlay').classList.remove('open');
+function closeAiDrawer() {
+  document.getElementById('ai-drawer').classList.remove('open');
+  document.getElementById('ai-drawer-overlay').classList.remove('open');
   document.body.style.overflow = '';
+  setDrawerSize('default');
 }
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeDrawer();
+
+// ── Helpers ───────────────────────────────────────────────────
+function setInputsDisabled(val) {
+  document.getElementById('ai-search-btn').disabled = val;
+  document.getElementById('ai-followup-btn').disabled = val;
+  document.getElementById('ai-followup-input').disabled = val;
+}
+
+// ── Enter key on search input ─────────────────────────────────
+document.getElementById('ai-search-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') handleSearch();
 });
+
+// ── Layer accordion ───────────────────────────────────────────
 </script>
 
 </body>
